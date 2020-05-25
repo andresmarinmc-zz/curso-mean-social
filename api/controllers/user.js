@@ -1,6 +1,8 @@
 "use strict";
 
 var bcrypt = require("bcrypt-nodejs");
+var mongoosePaginate = require("mongoose-pagination");
+
 var User = require("../models/user");
 var jwt = require("../services/jwt");
 
@@ -84,9 +86,41 @@ function loginUser(req, res) {
 	});
 }
 
+function getUser(req, res) {
+	var userId = req.params.id;
+
+	User.findById(userId, (err, usuario_buscado) => {
+		if (err) return res.status(500).send({ message: "Error en la petición" });
+		if (!usuario_buscado) return res.status(404).send({ message: "El usuario no existe" });
+
+		return res.status(200).send({ usuario_buscado });
+	});
+}
+
+function getUsers(req, res) {
+	var identity_user_id = req.user.sub;
+
+	var page = req.params.page ? req.params.page : 1;
+	var itemsPerPage = 5;
+
+	User.find()
+		.sort("_id")
+		.paginate(page, itemsPerPage, (err, users, total) => {
+			if (err) return res.status(500).send({ message: "Error en la petición" });
+			if (!users) return res.status(404).send({ message: "No hay usuarios disponibles" });
+			return res.status(200).send({
+				users: users,
+				total: total,
+				pages: Math.ceil(total / itemsPerPage),
+			});
+		});
+}
+
 module.exports = {
 	home,
 	pruebas,
 	saveUser,
 	loginUser,
+	getUser,
+	getUsers,
 };
