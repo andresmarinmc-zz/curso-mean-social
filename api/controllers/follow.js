@@ -23,15 +23,39 @@ function saveFollow(req, res) {
 function deleteFollow(req, res) {
 	var userId = req.user.sub;
 	var followedId = req.body.followed;
-    console.log("userId: "+userId);
-    console.log("followedId: "+followedId);
+	console.log("userId: " + userId);
+	console.log("followedId: " + followedId);
 	Follow.find({ "user": userId, "followed": followedId }).deleteOne(err => {
 		if (err) return res.status(500).send({ message: "Error al quitar follow" });
 		return res.status(200).send({ message: "El follow se ha quitado" });
 	});
 }
 
+function getFollowinUsers(req, res) {
+	var userId = req.user.sub;
+
+	if (req.params.id && req.params.page) {
+		userId = req.params.id;
+	}
+
+	var page = (req.params.page) ? req.params.page : req.params.id;
+
+	var itemsPerPage = 4;
+
+	Follow.find({ user: userId }).populate({ path: 'followed' }).paginate(page, itemsPerPage, (err, follows, total) => {
+		if (err) return res.status(500).send({ message: "Error en el servidor" });
+		if (!follows) return res.status(404).send({ message: "No estás siguiendo a nadie" });
+		return res.status(200).send({
+			total: total,
+			pages: Math.ceil(total / itemsPerPage),
+			follows
+		});
+	});
+
+}
+
 module.exports = {
 	saveFollow,
 	deleteFollow,
+	getFollowinUsers
 };
