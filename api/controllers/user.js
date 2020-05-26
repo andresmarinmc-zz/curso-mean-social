@@ -2,6 +2,8 @@
 
 var bcrypt = require("bcrypt-nodejs");
 var mongoosePaginate = require("mongoose-pagination");
+var fs = require("fs");
+var path = require("path");
 
 var User = require("../models/user");
 var jwt = require("../services/jwt");
@@ -135,6 +137,56 @@ function updateUser(req, res) {
 	});
 }
 
+//Subir Avatar Usuario
+function uploadImage(req, res) {
+	var userId = req.params.id;
+
+	if (req.files) {
+		var file_path = req.files.image.path;
+		var file_name = file_path.split("\\")[2];
+		var file_ext = file_name.split(".")[1];
+
+		if (userId != req.user.sub) {
+			return removeFilesOfUploads(res, file_path, "No tienes permisos para actualizar la imagen de este usuario");
+		}
+
+		if (file_ext == "png" || file_ext == "jpg" || file_ext == "jpeg" || file_ext == "gif") {
+			User.findByIdAndUpdate(userId, { image: file_name }, { new: true }, (err, usuario_actualizado) => {
+				if (err) return res.status(500).send({ message: "Error en la petición" });
+				if (!usuario_actualizado) return res.status(404).send({ message: "No se ha podido actualizar el usuario" });
+
+				return res.status(200).send({
+					user: usuario_actualizado,
+				});
+			});
+		} else {
+			return removeFilesOfUploads(res, file_path, "El tipo de archivo no es válido");
+		}
+	} else {
+		return res.status(200).send({ message: "No se recibió ninguna imagen" });
+	}
+}
+
+function removeFilesOfUploads(res, file_path, message) {
+	fs.unlink(file_path, err => {
+		if (err) return res.status(200).send({ message: "Error al eliminar archivo no válido" });
+		return res.status(200).send({ message: message });
+	});
+}
+
+function getImageFile(req, res) {
+	var image_file = req.params.imageFile;
+	var path_file = "./uploads/users/" + image_file;
+
+	fs.exists(path_file, exists => {
+		if (exists) {
+			res.sendFile(path.resolve(path_file));
+		} else {
+			res.status(200).send({ message: "No existe la imagen" });
+		}
+	});
+}
+
 module.exports = {
 	home,
 	pruebas,
@@ -143,4 +195,6 @@ module.exports = {
 	getUser,
 	getUsers,
 	updateUser,
+	uploadImage,
+	getImageFile,
 };
