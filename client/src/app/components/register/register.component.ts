@@ -3,31 +3,31 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { User } from '../../models/user';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { UserService } from '../../services/user.service';
 
 @Component({
-    selector: 'register',
-    templateUrl: './register.component.html'
+  selector: 'register',
+  templateUrl: './register.component.html',
+  providers: [UserService],
 })
-
 export class RegisterComponent implements OnInit {
+  public title: string;
+  public user: User;
 
-    public title: string;
-    public user: User;
+  constructor(
+    private _route: ActivatedRoute,
+    private _router: Router,
+    private _userService: UserService
+  ) {
+    this.title = 'Regístrate';
+    this.user = new User('', '', '', '', '', '', '', '');
+  }
 
-    constructor(
-        private _route: ActivatedRoute,
-        private _router: Router,
-    ) {
-        this.title = 'Regístrate';
-        this.user = new User('', '', '', '', '', '', '', '');
-    }
+  ngOnInit() {
+    console.log('Componente de registro cargado');
+  }
 
-    ngOnInit() {
-        console.log('Componente de registro cargado');
-    }
-
-    onSubmit(registerForm){
-        console.log(this.user);
-    }
-
+  onSubmit(registerForm) {
+    this._userService.register(this.user);
+  }
 }
