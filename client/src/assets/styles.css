@@ -1,0 +1,17 @@
+body {
+    padding: none;
+    margin: none;
+}
+
+#navigation.navigation {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#navigation .navbar-inverse {
+    border-radius: 0px;    
+}
+
+#navigation .navbar-inverse a{
+    color:white;
+}
