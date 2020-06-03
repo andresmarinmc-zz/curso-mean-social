@@ -66,13 +66,14 @@ function loginUser(req, res) {
 	var params = req.body;
 	var email = params.email;
 	var password = params.password;
+	console.log(params);
 
 	User.findOne({ email: email }, (err, usuario_buscado) => {
 		if (err) return res.status(500).send({ message: "Error en la petición" });
 		if (usuario_buscado) {
 			bcrypt.compare(password, usuario_buscado.password, (err, password_iguales) => {
 				if (password_iguales) {
-					if (params.getToken) {
+					if (params.gettoken) {
 						return res.status(200).send({
 							token: jwt.createToken(usuario_buscado),
 						});

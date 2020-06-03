@@ -2,29 +2,35 @@
     <form action="" #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)" class="col-lg-10">
         <h1>{{title}}</h1>
         <br>
+        <div class="alert alert-success" *ngIf="status == 'success'">
+            Registro completado correctamente, <a [routerLink]="['/login']">Identifícate aquí</a>
+        </div>
+        <div class="alert alert-danger" *ngIf="status == 'error'">
+            El registro no ha podido completarse, quizás tu email o nickname ya esté en uso, inténtalo de nuevo
+        </div>
         <div class="form-group">
             <label for="Nombre">Nombres</label>
-            <input require type="text" class="form-control" id="Nombre" name="name" #name="ngModel" [(ngModel)]="user.name">
+            <input required type="text" class="form-control" id="Nombre" name="name" #name="ngModel" [(ngModel)]="user.name">
             <small *ngIf="!name.valid && name.touched" class="form-text text-danger">El nombre es obligatorio</small>
         </div>
         <div class="form-group">
             <label for="Apellidos">Apellidos</label>
-            <input require type="text" class="form-control" id="Apellidos" name="surname" #surname="ngModel" [(ngModel)]="user.surname">
+            <input required type="text" class="form-control" id="Apellidos" name="surname" #surname="ngModel" [(ngModel)]="user.surname">
             <small *ngIf="!surname.valid && surname.touched" class="form-text text-danger">El apellido es obligatorio</small>
         </div>
         <div class="form-group">
             <label for="Nickname">Nickname</label>
-            <input require type="text" class="form-control" id="Nickname" name="nick" #nick="ngModel" [(ngModel)]="user.nick">
+            <input required type="text" class="form-control" id="Nickname" name="nick" #nick="ngModel" [(ngModel)]="user.nick">
             <small *ngIf="!nick.valid && nick.touched" class="form-text text-danger">El nickname es obligatorio</small>
         </div>
         <div class="form-group">
             <label for="Email">Email</label>
-            <input require type="email" class="form-control" id="Email" name="email" #email="ngModel" [(ngModel)]="user.email">
+            <input required type="email" class="form-control" id="Email" name="email" #email="ngModel" [(ngModel)]="user.email">
             <small *ngIf="!email.valid && email.touched" class="form-text text-danger">El email es obligatorio</small>
         </div>
         <div class="form-group">
             <label for="Password">Password</label>
-            <input require type="password" class="form-control" id="Password" name="password" #password="ngModel" [(ngModel)]="user.password">
+            <input required type="password" class="form-control" id="Password" name="password" #password="ngModel" [(ngModel)]="user.password">
             <small *ngIf="!password.valid && password.touched" class="form-text text-danger">El password es obligatorio</small>
         </div>
         <button type="submit" class="btn btn-success btn-lg" [disabled]="!registerForm.form.valid">{{title}}</button>
