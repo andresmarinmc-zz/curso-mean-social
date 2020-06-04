@@ -12,7 +12,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{identity.name}}</a></li>
-          <li><a href="#"><span class="glyphicon glyphicon-cog"></span> Mis Datos</a></li>
+          <li><a [routerLink]="['/mis-datos']"><span class="glyphicon glyphicon-cog"></span> Mis Datos</a></li>
           <li><a class="btn-inverse btn" (click)="logout()"><span class="glyphicon glyphicon-log-out"></span> Cerrar Sesión</a></li>
         </ul>
       </div>
