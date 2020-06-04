@@ -203,15 +203,15 @@ async function getCountFollow(user_id) {
 		return count;
 	}).catch((err) => {
 		if (err) return handleError(err);
-	});	
-	
+	});
+
 	var followed = await Follow.count({ "followed": user_id }).then((count) => {
 		return count;
 	}).catch((err) => {
 		if (err) return handleError(err);
 	});
 
-	var publications = await Publication.count({"user": user_id}).then((count) => {
+	var publications = await Publication.count({ "user": user_id }).then((count) => {
 		return count;
 	}).catch((err) => {
 		if (err) return handleError(err);
@@ -234,19 +234,47 @@ function updateUser(req, res) {
 		return res.status(500).send({ message: "No tienes permisos para actualizar este usuario" });
 	}
 
-	User.findByIdAndUpdate(userId, update, { new: true }, (err, usuario_actualizado) => {
-		if (err) return res.status(500).send({ message: "Error en la petición" });
-		if (!usuario_actualizado) return res.status(404).send({ message: "No se ha podido actualizar el usuario" });
-		return res.status(200).send({
-			user: usuario_actualizado,
+	//Si el usuario que va a editar es el mismo en sesión y envio el mismo email
+	if (update.email.toLowerCase() == req.user.email) {
+
+		User.findByIdAndUpdate(userId, update, { new: true }, (err, usuario_actualizado) => {
+			if (err) return res.status(500).send({ message: "Error en la petición" });
+			if (!usuario_actualizado) return res.status(404).send({ message: "No se ha podido actualizar el usuario" });
+			return res.status(200).send({
+				user: usuario_actualizado,
+			});
 		});
-	});
+
+	} else {
+
+		User.findOne({ email: update.email.toLowerCase() })
+			.countDocuments()
+			.exec((err, users) => {
+				if (err) return res.status(500).send({ message: "Error al verificar email" });
+				if (users >= 1) {
+					return res.status(200).send({ message: "Ese email ya esta en uso por otro usuario" });
+				} else {
+
+					User.findByIdAndUpdate(userId, update, { new: true }, (err, usuario_actualizado) => {
+						if (err) return res.status(500).send({ message: "Error en la petición" });
+						if (!usuario_actualizado) return res.status(404).send({ message: "No se ha podido actualizar el usuario" });
+						return res.status(200).send({
+							user: usuario_actualizado,
+						});
+					});
+
+				}
+
+			});//Fin User.findOne
+
+	}//Fin else
+
 }
 
 //Subir Avatar Usuario
 function uploadImage(req, res) {
 	var userId = req.params.id;
-
+	console.log( req.files.image );
 	if (req.files) {
 		var file_path = req.files.image.path;
 		var file_name = file_path.split("\\")[2];

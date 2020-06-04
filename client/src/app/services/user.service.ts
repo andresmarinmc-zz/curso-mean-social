@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-//import { Observable } from 'rxjs/Observable';
 import { User } from '../models/user';
 import { GLOBAL } from './global';
 import { Observable } from 'rxjs';
-//import { stat } from 'fs';
 
 @Injectable()
 export class UserService {

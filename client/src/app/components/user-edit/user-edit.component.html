@@ -6,8 +6,17 @@
             Datos actualizados correctamente
         </div>
         <div class="alert alert-danger" *ngIf="status == 'error'">
-            No se pudieron actualizar tus datos
+            El email ya esta en uso por otro usuario
         </div>
+        <div class="form-group">
+            <label>Foto de Perfil</label>
+            <div *ngIf="user.image">
+                <img src="{{url+'get-image-user/'+user.image}}" width="150" class="rounded-circle" alt="">
+            </div>
+            <br>
+            <input type="file" class="form-control" placeholder="Subir imagen" (change)="fileChangeEvent($event)">
+        </div>
+
         <div class="form-group">
             <label for="Nombre">Nombres</label>
             <input required type="text" class="form-control" id="Nombre" name="name" #name="ngModel" [(ngModel)]="user.name">
@@ -28,6 +37,7 @@
             <input required type="email" class="form-control" id="Email" name="email" #email="ngModel" [(ngModel)]="user.email">
             <small *ngIf="!email.valid && email.touched" class="form-text text-danger">El email es obligatorio</small>
         </div>
+        
         <button type="submit" class="btn btn-warning btn-lg" [disabled]="!userEditForm.form.valid">{{title}}</button>
     </form>
 </div>

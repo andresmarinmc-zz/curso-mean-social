@@ -15,3 +15,7 @@ body {
 #navigation .navbar-inverse a{
     color:white;
 }
+
+.rounded-circle{
+    border-radius: 50%;
+}
