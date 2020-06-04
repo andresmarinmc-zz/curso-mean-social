@@ -2,12 +2,23 @@
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a href="#" class="navbar-brand">{{title}}</a>
+        <a [routerLink]="['/home']" class="navbar-brand">{{title}}</a>
       </div>
-      <ul class="nav navbar-nav">
-        <li><a href="#"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-th-list"></span> Timeline</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Personas</a></li>
+      <div *ngIf="identity">
+        <ul class="nav navbar-nav">
+          <li><a [routerLink]="['/home']"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-th-list"></span> Timeline</a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-eye-open"></span> Personas</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{identity.name}}</a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-cog"></span> Mis Datos</a></li>
+          <li><a class="btn-inverse btn" (click)="logout()"><span class="glyphicon glyphicon-log-out"></span> Cerrar Sesión</a></li>
+        </ul>
+      </div>
+      <ul class="nav navbar-nav" *ngIf="!identity">
+        <li><a [routerLink]="['/login']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><a [routerLink]="['/registro']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-user"></span> Crear Cuenta</a></li>
       </ul>
     </div>
   </nav>

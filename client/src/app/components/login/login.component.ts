@@ -26,22 +26,25 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     console.log('Componente de login cargado');
+    if (this._userService.getIdentity()) {
+      this._router.navigate(['/']);
+    }
   }
 
   onSubmit(form) {
     this._userService.signup(this.user).subscribe(
       (response) => {
         this.identity = response.user;
-        console.log(this.identity);
+        //console.log(this.identity);
         if (!this.identity || !this.identity._id) {
           this.status = 'error';
-          console.log(response.user);
+          //console.log(response.user);
         } else {
-          this.status = 'success';
           //PERSISTIR DATOS DEL USUARIO
+          localStorage.setItem('identity', JSON.stringify(this.identity));
 
           //Conseguir el Token
-          this.getToken();
+          this.getToken();          
         }
       },
       (error) => {
@@ -58,16 +61,16 @@ export class LoginComponent implements OnInit {
     this._userService.signup(this.user, 'true').subscribe(
       (response) => {
         this.token = response.token;
-        console.log(this.token);
         if (this.token.length <= 0) {
           this.status = 'error';
-          console.log(response.token);
+          //console.log(response.token);
         } else {
-          this.status = 'success';
           //PERSISTIR DATOS DEL USUARIO
+          localStorage.setItem('token', JSON.stringify(this.token));
 
           //Conseguir los contadores o estadísticas del usuario
-            
+          this.getCounters();
+          
         }
       },
       (error) => {
@@ -76,6 +79,20 @@ export class LoginComponent implements OnInit {
         if (errorMessage != null) {
           this.status = 'error';
         }
+      }
+    );
+  }
+
+  getCounters() {
+    this._userService.getCounters().subscribe(
+      (response) => {
+        console.log(response);
+        localStorage.setItem('stats', JSON.stringify(response));
+        this.status = 'success';
+        this._router.navigate(['/']);
+      },
+      (error) => {
+        console.log(<any>error);
       }
     );
   }

@@ -66,7 +66,6 @@ function loginUser(req, res) {
 	var params = req.body;
 	var email = params.email;
 	var password = params.password;
-	console.log(params);
 
 	User.findOne({ email: email }, (err, usuario_buscado) => {
 		if (err) return res.status(500).send({ message: "Error en la petición" });
