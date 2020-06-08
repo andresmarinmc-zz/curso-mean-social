@@ -9,13 +9,34 @@ body {
 }
 
 #navigation .navbar-inverse {
-    border-radius: 0px;    
+    border-radius: 0px;
 }
 
-#navigation .navbar-inverse a{
-    color:white;
+#navigation .navbar-inverse a {
+    color: white;
 }
 
-.rounded-circle{
+.rounded-circle {
     border-radius: 50%;
+}
+
+#avatar {
+    width: 27px;
+    margin-right: 6px;
+    overflow: hidden;
+    margin-top: -6px;
+    margin-bottom: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.link:hover {
+    cursor: pointer;
+}
+
+.people .imagen-user img {
+    width: 100px;
+    border-radius: 50%;
+    margin-right: 19px;
+    border: 2px solid #333;
 }
