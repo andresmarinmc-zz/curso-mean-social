@@ -1,0 +1,61 @@
+<div id="user-card" class="col-lg-4 panel panel-default text-center">
+    <div class="clearfix"></div>
+    <div class="avatar">
+        <br>
+        <img src="{{ url + 'get-image-user/'+ identity.image }}" *ngIf="identity.image" width="150" class="rounded-circle">
+        <img src="assets/user.jpg" *ngIf="!identity.image" width="150" class="rounded-circle">
+    </div>
+    <div class="name-surname">
+        <br>
+        <a href="#" class="h2">
+            {{ identity.name }} {{ identity.surname }}
+        </a>
+        <p class="nickname">{{identity.nick}} </p>
+        <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+    <hr>
+    <div class="stats" *ngIf="stats">
+
+        <div class="following-data col-lg-4">
+            <span class="label-stats h4">Siguiendo</span>
+            <div class="clearfix"></div>
+            <span class="number-stats h2">{{stats.following}}</span>
+            <br>
+        </div>
+        
+        <div class="following-data col-lg-4">
+            <span class="label-stats h4">Seguidores</span>
+            <div class="clearfix"></div>
+            <span class="number-stats h2">{{stats.followed}}</span>
+            <br>
+        </div>
+        
+        <div class="following-data col-lg-4">
+            <span class="label-stats h4">Publicaciones</span>
+            <div class="clearfix"></div>
+            <span class="number-stats h2">{{stats.publications}}</span>
+            <br>
+        </div>
+
+    </div>
+    <div class="clearfix"></div>
+    <hr>
+    <!-- Formulario de Publicaciones -->
+    <div id="new-publication">
+        <form #newPubForm="ngForm" (ngSubmit)="onSubmit()" class="col-lg-12">
+            <div class="form-group">
+                <label for="text">¿Qué estás pensando hoy?</label>
+                <textarea rows="3" id="text" class="form-control" name="text" #text="ngModel" [(ngModel)]="publication.text" required></textarea>
+                <small *ngIf="!text.valid && text.touched" class="form-text text-danger">El texto es obligatorio</small>
+            </div>
+            <div class="form-group">
+                <input type="file" placeholder="Subir imagen">
+            </div>
+            
+            <button type="submit" class="btn btn-success btn-lg" [disabled]="!newPubForm.form.valid">Guardar Publicación</button>
+                <br>
+            <br>
+        </form>
+    </div>
+</div>
