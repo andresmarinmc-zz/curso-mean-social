@@ -134,7 +134,7 @@ function getUsers(req, res) {
 	var page = req.params.page ? req.params.page : 1;
 	var itemsPerPage = 5;
 
-	User.find()
+	User.find({ _id: { '$ne': identity_user_id } })
 		.sort("_id")
 		.paginate(page, itemsPerPage, (err, users, total) => {
 			if (err) return res.status(500).send({ message: "Error en la petición" });
@@ -274,7 +274,7 @@ function updateUser(req, res) {
 //Subir Avatar Usuario
 function uploadImage(req, res) {
 	var userId = req.params.id;
-	console.log( req.files.image );
+	console.log(req.files.image);
 	if (req.files) {
 		var file_path = req.files.image.path;
 		var file_name = file_path.split("\\")[2];
