@@ -43,7 +43,9 @@
     <hr>
     <!-- Formulario de Publicaciones -->
     <div id="new-publication">
-        <form #newPubForm="ngForm" (ngSubmit)="onSubmit()" class="col-lg-12">
+        <div class="alert alert-success" *ngIf="status == 'success'">Publicación Guardada</div>
+        <div class="alert alert-danger" *ngIf="status == 'error'">{{ status }}</div>
+        <form #newPubForm="ngForm" (ngSubmit)="onSubmit(newPubForm)" class="col-lg-12">
             <div class="form-group">
                 <label for="text">¿Qué estás pensando hoy?</label>
                 <textarea rows="3" id="text" class="form-control" name="text" #text="ngModel" [(ngModel)]="publication.text" required></textarea>
