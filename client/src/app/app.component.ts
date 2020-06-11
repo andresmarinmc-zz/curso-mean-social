@@ -21,6 +21,7 @@ export class AppComponent implements OnInit, DoCheck{
   ) {
     this.title = 'NGSOCIAL';
     this.url = GLOBAL.url;
+    this._router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngOnInit(){

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GLOBAL } from '../../services/global';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Publication } from '../../models/publication';
 
@@ -20,6 +21,8 @@ export class SidebarComponent implements OnInit {
     public publication: Publication;
 
     constructor(
+        private _route: ActivatedRoute,
+        private _router: Router,
         private _userService: UserService,
         private _publicationService: PublicationService
     ) {
@@ -28,6 +31,7 @@ export class SidebarComponent implements OnInit {
         this.stats = this._userService.getStats();
         this.url = GLOBAL.url;
         this.publication = new Publication('', '', '', '', this.identity._id);
+        this._router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
 
     ngOnInit() {
@@ -35,12 +39,12 @@ export class SidebarComponent implements OnInit {
     }
 
     onSubmit(form) {
-        console.log(this.publication);
+        //console.log(this.publication);
         this._publicationService.addPublication(this.token, this.publication).subscribe(
             response => {
-                console.log(response.publication);
+                //console.log(response.publication);
                 if(response.publication){
-                    //this.publication = response.publication;
+                    this._router.navigate(['timeline']);
                     this.status = "success";
                     form.reset();
                 }else{

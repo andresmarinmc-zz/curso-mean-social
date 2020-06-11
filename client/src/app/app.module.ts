@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { routing, appRoutingProviders } from './app.routing';
 import { HttpClientModule } from '@angular/common/http';
+import { MomentModule } from 'angular2-moment';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -28,7 +29,8 @@ import { TimelineComponent } from './components/timeline/timeline.component';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    routing
+    routing, 
+    MomentModule
   ],
   providers: [
     appRoutingProviders

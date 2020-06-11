@@ -40,3 +40,12 @@ body {
     margin-right: 19px;
     border: 2px solid #ccc;
 }
+
+#publications .imagen-user img{
+    margin-right: 8px;
+    margin-top: -6px;
+}
+
+#publications .fecha-publication{
+    margin-top: -30px;
+}
