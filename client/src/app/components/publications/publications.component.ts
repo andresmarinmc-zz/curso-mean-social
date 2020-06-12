@@ -4,14 +4,13 @@ import { Publication } from '../../models/publication';
 import { GLOBAL } from '../../services/global';
 import { UserService } from '../../services/user.service';
 import { PublicationService } from '../../services/publication.service';
-import * as $ from 'jquery';
 
 @Component({
-    selector: 'timeline',
-    templateUrl: './timeline.component.html',
+    selector: 'publications',
+    templateUrl: './publications.component.html',
     providers: [UserService, PublicationService]
 })
-export class TimelineComponent implements OnInit {
+export class PublicationComponent implements OnInit {
     public identity;
     public token;
     public title: string;
@@ -30,7 +29,7 @@ export class TimelineComponent implements OnInit {
         private _userService: UserService,
         private _publicationService: PublicationService
     ) {
-        this.title = 'Timeline';
+        this.title = 'Publicaciones';
         this.identity = this._userService.getIdentity();
         this.token = this._userService.getToken();
         this.url = GLOBAL.url;
@@ -38,7 +37,7 @@ export class TimelineComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('Componente de timeline cargado');
+        console.log('Componente de publicación cargado');
         this.getPublications(this.page);
     }
 
@@ -56,11 +55,6 @@ export class TimelineComponent implements OnInit {
                         var arrayA = this.publications;
                         var arrayB = response.publications;
                         this.publications = arrayA.concat(arrayB);
-
-                        $("html, body").animate( {
-                            scrollTop: $("body").prop('scrollHeight')
-                        }, 500);
-
                     }
 
                 } else {
@@ -88,10 +82,6 @@ export class TimelineComponent implements OnInit {
         }
 
         this.getPublications(this.page, true);
-    }
-
-    refresh(event){
-        this.getPublications(1);
     }
 
 }

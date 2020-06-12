@@ -7,7 +7,7 @@
     </div>
     <div class="name-surname">
         <br>
-        <a href="#" class="h2">
+        <a  [routerLink]="['/perfil', identity._id]" class="h2">
             {{ identity.name }} {{ identity.surname }}
         </a>
         <p class="nickname">{{identity.nick}} </p>
@@ -45,7 +45,7 @@
     <div id="new-publication">
         <div class="alert alert-success" *ngIf="status == 'success'">Publicación Guardada</div>
         <div class="alert alert-danger" *ngIf="status == 'error'">{{ status }}</div>
-        <form #newPubForm="ngForm" (ngSubmit)="onSubmit(newPubForm)" class="col-lg-12">
+        <form #newPubForm="ngForm" (ngSubmit)="onSubmit(newPubForm); sendPublication($event)" class="col-lg-12">
             <div class="form-group">
                 <label for="text">¿Qué estás pensando hoy?</label>
                 <textarea rows="3" id="text" class="form-control" name="text" #text="ngModel" [(ngModel)]="publication.text" required></textarea>

@@ -1,0 +1,13 @@
+<div class="col-lg-8">
+    <div class="media" *ngIf="user">
+        <div class="media-left">
+            <img src="assets/user.jpg" alt="" *ngIf="!user.image" width="100" class="media-object" />
+            <img src="{{ url+ 'get-image-user/' +user.image}}" alt="" *ngIf="user.image" width="100" class="media-object" />
+        </div>
+        <div class="media-body">
+            <h2 class="media-heading">{{user.name}} {{user.surname}} <b class="small">@{{user.nick}}</b></h2>
+            <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+        </div>
+    </div>
+</div>
+<sidebar></sidebar>

@@ -3,7 +3,7 @@
         <div *ngFor="let user of users" class="item-user">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <a href="#">
+                    <a [routerLink]="['/perfil', user._id]">
                         <div class="imagen-user pull-left">
                             <img src="{{ url + 'get-image-user/'+ user.image }}" *ngIf="user.image">
                             <img src="assets/user.jpg" *ngIf="!user.image">

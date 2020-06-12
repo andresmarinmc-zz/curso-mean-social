@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { GLOBAL } from '../../services/global';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
@@ -31,7 +31,6 @@ export class SidebarComponent implements OnInit {
         this.stats = this._userService.getStats();
         this.url = GLOBAL.url;
         this.publication = new Publication('', '', '', '', this.identity._id);
-        this._router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
 
     ngOnInit() {
@@ -44,7 +43,7 @@ export class SidebarComponent implements OnInit {
             response => {
                 //console.log(response.publication);
                 if(response.publication){
-                    this._router.navigate(['timeline']);
+                    //this._router.navigate(['/timeline', {i:(new Date).getTime()}]);
                     this.status = "success";
                     form.reset();
                 }else{
@@ -60,5 +59,11 @@ export class SidebarComponent implements OnInit {
               }
         );
         
+    }
+
+    //Ouput
+    @Output() sended = new EventEmitter();
+    sendPublication(event){
+        this.sended.emit({sended: 'true'});
     }
 }

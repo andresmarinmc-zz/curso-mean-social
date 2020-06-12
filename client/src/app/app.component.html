@@ -6,12 +6,12 @@
       </div>
       <div *ngIf="identity">
         <ul class="nav navbar-nav">
-          <li><a [routerLink]="['/home']"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
-          <li><a [routerLink]="['/timeline']"><span class="glyphicon glyphicon-th-list"></span> Timeline</a></li>
-          <li><a [routerLink]="['/personas']"><span class="glyphicon glyphicon-eye-open"></span> Personas</a></li>
+          <li><a [routerLink]="['/home']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
+          <li><a [routerLink]="['/timeline']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-th-list"></span> Timeline</a></li>
+          <li><a [routerLink]="['/personas']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-eye-open"></span> Personas</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a  [routerLink]="['/perfil']" [routerLinkActive]="['active']"><span><img id="avatar" class="rounded-circle" src="{{url+'get-image-user/'+identity.image}}" *ngIf="identity && identity.image"></span> {{identity.name}}</a></li>
+          <li><a [routerLink]="['/perfil', this.identity._id ]" [routerLinkActive]="['active']"><span><img id="avatar" class="rounded-circle" src="{{url+'get-image-user/'+identity.image}}" *ngIf="identity && identity.image"></span> {{identity.name}}</a></li>
           <li><a [routerLink]="['/mis-datos']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-cog"></span> Mis Datos</a></li>
           <li><a class="link" (click)="logout()"><span class="glyphicon glyphicon-log-out"></span> Cerrar Sesión</a></li>
         </ul>
