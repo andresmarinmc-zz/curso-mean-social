@@ -11,7 +11,29 @@
                             <img src="{{ url + 'get-image-user/'+ publication.user.image }}" *ngIf="publication.user.image" width="30" class="rounded-circle pr-3">
                             <img src="assets/user.jpg" *ngIf="!publication.user.image">
                         </div>
-                        <h4>{{ publication.user.name }} {{ publication.user.surname }}</h4>
+                        <h4>
+                            <a [routerLink]="['/perfil', publication.user._id]">
+                                {{ publication.user.name }} {{ publication.user.surname }}</a>
+                            <a type="button" *ngIf="publication.user._id == identity._id" class="btn btn-danger" style="margin-left:5px" data-toggle="modal" href="#myModal{{ publication._id }}">Eliminar</a>
+
+                            <div class="modal fade" id="myModal{{ publication._id }}" tabindex="-1" role="dialog">
+                                <div class="modal-dialog modal-sm" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title">Eliminar Publicación #{{ publication._id }}</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p class="small">Estas Seguro?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                            <button type="button" class="btn btn-danger" (click)="deletePublication(publication._id)" data-dismiss="modal">Eliminar</button>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+                        </h4>
                         <div class="fecha-publication pull-right">
                             {{ (publication.created_at | amFromUnix) | amLocale: 'es' | amTimeAgo }}
                         </div>
@@ -19,13 +41,17 @@
                 </div>
                 <div class="panel-body">
                     <div class="publication-text pull-left">
+                        <div *ngIf="publication.file">
+                            <img src="{{ url + 'get-image-pub/'+ publication.file }}" width="auto" height="200">
+                            <hr>
+                        </div>
                         {{ publication.text }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-12 text-center">
+    <div class="col-lg-12 text-center" *ngIf="publications && publications.length">
         <button class="btn btn-success btn-lg" (click)="viewMore()" *ngIf="!noMore">Ver más publicaciones</button>
     </div>
 

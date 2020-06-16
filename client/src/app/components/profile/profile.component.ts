@@ -34,7 +34,8 @@ export class ProfileComponent implements OnInit {
         this.identity = this._userService.getIdentity();
         this.token = this._userService.getToken();
         this.url = GLOBAL.url;
-        //this.user = new User('', '', '', '', '', '', '', '', '');
+        this.followed = false;
+        this.following = false;
     }
 
     ngOnInit() {
@@ -57,9 +58,8 @@ export class ProfileComponent implements OnInit {
                 if (response.usuario_buscado) {
                     this.user = response.usuario_buscado;
 
-                    if(response.following._id){
-                        
-                    }
+                    this.following = (response.following && response.following._id) ? true : false;
+                    this.followed = (response.followed && response.followed._id) ? true : false;
 
                 } else {
                     this.status = 'error';
@@ -83,6 +83,29 @@ export class ProfileComponent implements OnInit {
                 }
             }, error => {
                 this.status = 'error';
+                console.log("error: " + <any>error);
+            }
+        );
+    }
+
+    followUser(followed){
+        var follow = new Follow('', this.identity._id, followed);
+        this._followService.addFollow(this.token, follow).subscribe(
+            response => {
+                //console.log("respuesta: " + response);
+                this.following = true;
+            }, error => {
+                console.log("error: " + <any>error);
+            }
+        );
+    }
+    
+    unfollowUser(followed){
+        this._followService.deleteFollow(this.token, followed).subscribe(
+            response => {
+                //console.log("respuesta: " + response);
+                this.following = false;
+            }, error => {
                 console.log("error: " + <any>error);
             }
         );

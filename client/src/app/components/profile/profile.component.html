@@ -5,8 +5,42 @@
             <img src="{{ url+ 'get-image-user/' +user.image}}" alt="" *ngIf="user.image" width="100" class="media-object" />
         </div>
         <div class="media-body">
-            <h2 class="media-heading">{{user.name}} {{user.surname}} <b class="small">@{{user.nick}}</b></h2>
-            <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+            <span class="media-heading">
+                <h2>{{user.name}} {{user.surname}}</h2>
+                <b class="small">@{{user.nick}}</b>&nbsp;
+                <span class="label label-success small" *ngIf="followed">Te sigue</span>&nbsp;
+                <button class="btn btn-success" *ngIf="!following" (click)="followUser(user._id)">Seguir</button>
+                <button class="btn btn-info" *ngIf="following" (click)="unfollowUser(user._id)">Dejar de Seguir</button>
+            </span>
+            <hr>
+            <div class="stats" *ngIf="stats">
+
+                <div class="following-data col-lg-4">
+                    <span class="label-stats h5">Siguiendo</span>
+                    <div class="clearfix"></div>
+                    <span class="number-stats h2">{{stats.following}}</span>
+                    <br>
+                </div>
+
+                <div class="following-data col-lg-4">
+                    <span class="label-stats h5">Seguidores</span>
+                    <div class="clearfix"></div>
+                    <span class="number-stats h2">{{stats.followed}}</span>
+                    <br>
+                </div>
+
+                <div class="following-data col-lg-4">
+                    <span class="label-stats h5">Publicaciones</span>
+                    <div class="clearfix"></div>
+                    <span class="number-stats h2">{{stats.publications}}</span>
+                    <br>
+                </div>
+
+            </div>
+            <br>
+            <br>
+            <hr>
+            <publications [user]="user._id" *ngIf="user"></publications>
         </div>
     </div>
 </div>

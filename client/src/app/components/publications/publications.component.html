@@ -21,6 +21,9 @@
         </div>
     </div>
 </div>
-<div class="col-lg-12 text-center">
+<div class="col-lg-12 text-center" *ngIf="publications && publications.length">
     <button class="btn btn-success btn-lg" (click)="viewMore()" *ngIf="!noMore">Ver más publicaciones</button>
 </div>
+<!-- <div class="col-lg-12 text-center" *ngIf="publications && !publications.length">
+    <div class="label label-info">No tiene publicaciones</div>
+</div> -->
